@@ -1,0 +1,45 @@
+
+{% extends "layout.html" %}
+{% block content %}
+  <div class="row">
+    <div class="col-md-8">
+      <h3>My Tasks & Study Plan</h3>
+      {% if tasks %}
+        {% for t in tasks %}
+          <div class="card card-compact {% if t.priority == 'high' %}priority-high{% else %}priority-normal{% endif %}">
+            <div class="card-body">
+              <div class="d-flex justify-content-between">
+                <div>
+                  <h5 class="card-title mb-1">{{ t.title }}</h5>
+                  <p class="mb-1"><small class="text-muted">{{ t.subject }}{% if t.date %} • {{ t.date }}{% endif %}</small></p>
+                  <p class="mb-1">{{ t.note }}</p>
+                </div>
+                <div class="text-end">
+                  <form method="post" action="{{ url_for('delete_task', task_id=t.id) }}">
+                    <button class="btn btn-sm btn-outline-danger" type="submit">Delete</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        <div class="alert alert-info">No tasks yet — add your first study task!</div>
+      {% endif %}
+    </div>
+    <div class="col-md-4">
+      <div class="card p-3 mb-3">
+        <h5>Quick Tips</h5>
+        <p class="mb-0 quote">"Break study into 25-minute sprints with short breaks (Pomodoro)."</p>
+      </div>
+      <div class="card p-3">
+        <h5>How to use</h5>
+        <ol>
+          <li>Click <strong>+ Add Task</strong> to create assignments or study sessions.</li>
+          <li>Use printable export to save as PDF for offline study.</li>
+          <li>Group tasks by subject using the Subject field.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+{% endblock %}
